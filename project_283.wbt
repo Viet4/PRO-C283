@@ -1,0 +1,315 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/OsbWood.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+
+WorldInfo {
+  info [
+    "In this example, the robot turns on a slope."
+    "Its accelerometer sensor is used to switch on the bottommost LED."
+  ]
+  title "Accelerometer"
+  basicTimeStep 8
+  contactProperties [
+    ContactProperties {
+      material2 "body"
+      coulombFriction [
+        0
+      ]
+      softCFM 0.1
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.2048726836747504 -0.19948877152817684 0.9582439217224832 4.7951162972018695
+  position -0.09258633608295962 0.7542671130655433 0.5276762958339608
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+PointLight {
+  attenuation 0 0 1
+  intensity 0.6
+  location 0.6 0 0
+}
+DEF SLOPE Solid {
+  translation 0 0 0.15
+  rotation 1 0 0 -1.970795
+  children [
+    Shape {
+      appearance OsbWood {
+        textureTransform TextureTransform {
+          scale 0.5 2
+        }
+      }
+      geometry DEF BOX0 Box {
+        size 0.2 0.02 0.8
+      }
+    }
+  ]
+  name "green box"
+  boundingObject USE BOX0
+}
+Robot {
+  translation -5.312225710660873e-07 0.015041497391069684 0.1546028729231678
+  rotation -0.23876347587037156 0.2387238831036847 0.9412772759533701 1.6310687000297273
+  children [
+    LED {
+      translation 0.03 0 0.08
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Capsule {
+            height 0.01
+            radius 0.005
+          }
+        }
+      ]
+      name "front led"
+    }
+    LED {
+      translation 0 -0.03 0.08
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Capsule {
+            height 0.01
+            radius 0.005
+          }
+        }
+      ]
+      name "right led"
+    }
+    LED {
+      translation 0 0.03 0.08
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Capsule {
+            height 0.01
+            radius 0.005
+          }
+        }
+      ]
+      name "left led"
+    }
+    LED {
+      translation -0.03 0 0.08
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Capsule {
+            height 0.01
+            radius 0.005
+          }
+        }
+      ]
+      name "back led"
+    }
+    Accelerometer {
+    }
+    Pose {
+      translation 0 0 0.0415
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.0820075 0.364731 0.8
+            roughness 1
+            metalness 0
+          }
+          geometry DEF BODY Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 5.72780434074473e-08
+        axis 0 1 0
+        anchor 0 0 0.025
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "left wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.04499999999999999 0.025
+        rotation 0.5773502581664616 -0.5773502581664596 -0.5773502912359556 2.0943949669305066
+        children [
+          DEF WHEEL Pose {
+            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+        linearVelocity 1.5287375339192234e-13 5.275888619000922e-06 -2.2305955677123255e-06
+        angularVelocity -1.026831039678321e-08 2.1491326926668637e-08 5.0764222250241645e-08
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 5.732766664167307e-08
+        axis 0 1 0
+        anchor 0 0 0.025
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "right wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0 -0.04499999999999999 0.025
+        rotation 0.5773502581569115 -0.5773502581569095 -0.5773502912550555 2.0943949669018562
+        children [
+          USE WHEEL
+        ]
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+        linearVelocity 1.1672515978952258e-12 5.280457490883838e-06 -2.2325295744096164e-06
+        angularVelocity -1.0268142214238533e-08 2.1491340464758114e-08 5.0764194461659095e-08
+      }
+    }
+    DistanceSensor {
+      translation 0.0340715 0.0320969 0.063
+      rotation 0 0 1 0.808993
+      children [
+        DEF left_sensor Pose {
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.97 0.98 0.25
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.004
+                radius 0.008
+              }
+            }
+          ]
+        }
+      ]
+      name "left eye"
+      lookupTable [
+        0.05 1024 0
+        0 1024 0
+        0.15 0 0
+      ]
+      numberOfRays 2
+      aperture 1
+    }
+    DistanceSensor {
+      translation 0.0337205 -0.0306911 0.063
+      rotation 0 0 -1 0.761804
+      children [
+        DEF right_sensor Pose {
+          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.97 0.98 0.25
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.004
+                radius 0.008
+              }
+            }
+          ]
+        }
+      ]
+      name "right eye"
+      lookupTable [
+        0.05 1024 0
+        0 1024 0
+        0.15 0 0
+      ]
+      numberOfRays 2
+      aperture 1
+    }
+    DEF mouth Pose {
+      translation 0.045 -1.82483e-07 0.0499998
+      rotation -0.9999999999956679 2.9434699999872486e-06 2.397449999989614e-09 1.57079
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Capsule {
+            height 0.02
+            radius 0.002
+          }
+        }
+      ]
+    }
+  ]
+  name "MyBot"
+  contactMaterial "body"
+  boundingObject Pose {
+    translation 0 0 0.0415
+    rotation 0 0 1 -1.570796
+    children [
+      USE BODY
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+  }
+  controller "my_controller"
+  linearVelocity -8.67722457371038e-11 5.2783220773051126e-06 -2.231643246431841e-06
+  angularVelocity -1.026819790656674e-08 2.1491331917081874e-08 5.076420917440209e-08
+}
